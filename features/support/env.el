@@ -18,11 +18,11 @@
 (require 'espuds)
 (require 'ert)
 
-(Before
+(After
  (let ((git-dir (f-expand ".git" magit-git-project-path)))
    (when (f-dir? git-dir)
      (f-delete git-dir t)))
- (let ((ignores '(".gitignore")))
+ (let ((ignores '(".gitkeep")))
    (-map
     (lambda (file)
       (unless (--any? (equal it (f-filename file)) ignores)
