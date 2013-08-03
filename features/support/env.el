@@ -19,6 +19,12 @@
 (require 'ert)
 
 (Before
- (--map
-  (f-delete it t)
-  (f-directories magit-git-project-path)))
+ (let ((git-dir (f-expand ".git" magit-git-project-path)))
+   (when (f-dir? git-dir)
+     (f-delete git-dir t)))
+ (let ((ignores '(".gitignore")))
+   (-map
+    (lambda (file)
+      (unless (--any? (equal it (f-filename file)) ignores)
+        (f-delete file t)))
+    (f-files magit-git-project-path))))
